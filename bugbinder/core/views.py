@@ -234,8 +234,16 @@ def publicissueView(request, id):
 @csrf_exempt
 @login_required
 def taskView(request):
-    tasks = Task.objects.filter(dev=request.user)
-    profile = Profile.objects.get(user=request.user)
+    try:
+        tasks = Task.objects.filter(dev=request.user)
+        profile = Profile.objects.get(user=request.user)
+    except:
+        profile = Profile()
+        profile.name = "---------------------"
+        profile.mobile = "---------------------"
+        profile.office = "---------------------"
+        return render(request, 'core/profile.html', {"profile": profile, 'task_count': count_task(request), "message": "Please complete your profile to view your tasks."})
+
     if request.method == "POST":
         task_id = request.POST.get('task_id')
         solution = request.POST.get('solution')
