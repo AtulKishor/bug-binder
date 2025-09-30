@@ -4,6 +4,17 @@ A Bug tracking and ticketing system using Django.
 This is the final project for CS50's Web Programming with Python and JavaScript.
 Find all previous projects <b>[here.](https://github.com/asifo1/cs50w)</b>
 
+#### Hosted link
+[bug-binder](http://atulK.pythonanywhere.com)
+
+CREDENTIALS:<br>
+
+| User | Email | Password |
+| :------ | :----: | -----: |
+| Atul | atulddpm@gmail.com  | debugthebug |
+| Divya | dbharti0606@gmail.com  | debugthebug |
+| Aakash | aakash@gmail.com | debugthebug |
+
 #### Features
 
 1. Create project.
