@@ -1,14 +1,28 @@
 services:
+
+  db:
+    image: postgres:15
+    container_name: bugbinder_db
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
   web:
     build: .
-    command: >
-      sh -c "python manage.py makemigrations &&
-             python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8000"
+    container_name: bugbinder_web
+    restart: always
+    env_file:
+      - .env
     volumes:
-      - bugbinder:/app
+      - .:/app
     ports:
-      - 8000:8000
+      - "8000:8000"
+    depends_on:
+      - db
 
 volumes:
-  bugbinder:
+  postgres_data:

@@ -3,6 +3,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# .env
+.env
 #virtualenv
 env/
 
@@ -20,6 +22,7 @@ media/
 !**/migrations
 !**/migrations/__init__.py
 
+staticfiles/
 
 #vscode
 .vscode/
