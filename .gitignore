@@ -27,3 +27,18 @@ staticfiles/
 #vscode
 .vscode/
 
+
+#coverage
+htmlcov/
+.coverage
+.coverage.*
+#pytest
+.pytest_cache/
+#logs
+logs/
+
+# artifacts
+*.log
+artifacts/
+
+gunicorn.ctl

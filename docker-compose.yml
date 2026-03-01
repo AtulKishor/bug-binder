@@ -24,5 +24,17 @@ services:
     depends_on:
       - db
 
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    container_name: bugbinder_tests
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    depends_on:
+      - web
+
 volumes:
   postgres_data:

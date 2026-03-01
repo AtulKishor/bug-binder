@@ -66,6 +66,14 @@ USER CREDENTIALS:<br>
   - `gitignore` - Ignored files for git.
   - `Pipfile` - Project dependencies.
 
+  #### Testing
+
+  TODO: Add tests for 
+  - Sign up and Sign in
+  - Creating a new project and bug
+  - Assign the bug to a dev/tester working on the project
+  - Password change through email otp
+
   #### Justification
 
   This project is distinct from all previous projects so far. Why?
