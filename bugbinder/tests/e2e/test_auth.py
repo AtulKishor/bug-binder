@@ -1,5 +1,4 @@
 import time
-from dataclasses import dataclass
 
 import pytest
 from django.contrib.auth.models import User
@@ -8,39 +7,14 @@ from tests.pages.login_page import LoginPage
 from tests.pages.signup_page import SignupPage
 
 
-@dataclass(frozen=True)
-class AuthData:
-    username: str
-    email: str
-    password: str
-
-    def ensure_user_exists(self):
-        if not User.objects.filter(username=self.username).exists():
-            User.objects.create_user(
-                username=self.username,
-                email=self.email,
-                password=self.password,
-            )
-
-
-@pytest.fixture(scope="module")
-def auth_data():
-    # Shared credentials and persistence helpers for auth tests.
-    return AuthData(
-        username="test_user",
-        email="test@example.com",
-        password="test@123",
-    )
-
-
 @pytest.mark.django_db
-def test_signup(page, live_server, auth_data):
+def test_signup(page, live_server, test_user):
     signup = SignupPage(page, live_server)
     signup.open()
-    signup.signup(auth_data.username, auth_data.email, auth_data.password)
+    signup.signup(test_user.username, test_user.email, test_user.password)
 
     if page.locator("#signup-error").is_visible():
-        user_exists = User.objects.filter(username=auth_data.username).exists()
+        user_exists = User.objects.filter(username=test_user.username).exists()
         assert user_exists, "Error message should be visible for existing username"
         return
 
@@ -55,25 +29,25 @@ def test_signup(page, live_server, auth_data):
 
 
 @pytest.mark.django_db
-def test_login(page, live_server, auth_data):
+def test_login(page, live_server, test_user, shared_users):
     # pytest-django rolls back DB changes after each test, so recreate test user if needed.
-    auth_data.ensure_user_exists()
+    shared_users.ensure_exists(test_user)
 
     login = LoginPage(page, live_server)
     login.open()
-    login.login(auth_data.email, auth_data.password)
+    login.login(test_user.email, test_user.password)
 
     assert page.get_by_role("heading", name="Dashboard").is_visible(), f"Login error: {page.locator('#login-error').text_content()}"
 
 
 @pytest.mark.django_db
-def test_logout(page, live_server, auth_data):
-    # pytest-django rolls back DB changes after each test, so recreate test user if needed.
-    auth_data.ensure_user_exists()
+def test_logout(page, live_server, test_user, shared_users):
+    # pytest-django rolls back DB changes after each test, so recreate test_user if needed.
+    shared_users.ensure_exists(test_user)
 
     page.goto(live_server.url)
     login = LoginPage(page, live_server)
-    login.login(auth_data.email, auth_data.password)
+    login.login(test_user.email, test_user.password)
 
     page.get_by_role("link", name="exit_to_app Logout").nth(1).click()
 
@@ -82,4 +56,15 @@ def test_logout(page, live_server, auth_data):
     ), "Login screen should be visible after logging out"
 
 
-# TODO: Add tests for forgot password and reset password functionality
+@pytest.mark.django_db
+def test_reset_password(page, live_server, test_user, shared_users):
+    # pytest-django rolls back DB changes after each test, so recreate test_user if needed.
+    shared_users.ensure_exists(test_user)
+
+    page.goto(live_server.url)
+    login = LoginPage(page, live_server)
+    login.login(test_user.email, test_user.password)
+    login.reset_password(test_user.password, "test@1234")
+
+    assert page.get_by_role("link", name="Change Password").is_visible(), "Change Password link should be visible after saving password"
+    
