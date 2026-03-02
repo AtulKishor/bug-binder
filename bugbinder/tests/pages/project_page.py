@@ -1,12 +1,10 @@
 from .base_page import BasePage
 
 class ProjectPage(BasePage):
-
-    def open_create(self):
-        super().open("/projects/create/")
-
     def create_project(self, name, description):
-        self.page.fill("input[name='name']", name)
-        self.page.fill("textarea[name='description']", description)
-        self.page.click("button[type='submit']")
-    
+        self.page.get_by_role("link", name="Add Project").click()
+        self.page.get_by_text("Project Name").click()
+        self.page.get_by_role("textbox", name="Project Name").fill(name)
+        self.page.get_by_text("Description").click()
+        self.page.get_by_role("textbox", name="Description").fill(description)
+        self.page.get_by_role("button", name="Create Project").click()

@@ -1,5 +1,3 @@
-import time
-
 from .base_page import BasePage
 
 class SignupPage(BasePage):
@@ -14,7 +12,7 @@ class SignupPage(BasePage):
         self.page.locator("#modal2").get_by_text("Password", exact=True).click()
         self.page.get_by_role("textbox", name="Password").fill(password)
         self.page.locator("#signup-btn").click()
-        time.sleep(5)  # Wait for the page to load after signing up
+        self.page.wait_for_load_state("networkidle")
 
     def fill_additional_details(self, full_name, mobile_number, organization, github_username, linkedin_username):
         self.page.get_by_role("link", name="account_circle test_user").nth(1).click()

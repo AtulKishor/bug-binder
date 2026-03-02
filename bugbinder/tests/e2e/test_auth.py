@@ -35,7 +35,7 @@ def test_login(page, live_server, test_user, shared_users):
 
     login = LoginPage(page, live_server)
     login.open()
-    login.login(test_user.email, test_user.password)
+    login.login(test_user.username, test_user.password)
 
     assert page.get_by_role("heading", name="Dashboard").is_visible(), f"Login error: {page.locator('#login-error').text_content()}"
 
@@ -47,7 +47,7 @@ def test_logout(page, live_server, test_user, shared_users):
 
     page.goto(live_server.url)
     login = LoginPage(page, live_server)
-    login.login(test_user.email, test_user.password)
+    login.login(test_user.username, test_user.password)
 
     page.get_by_role("link", name="exit_to_app Logout").nth(1).click()
 
@@ -63,7 +63,7 @@ def test_reset_password(page, live_server, test_user, shared_users):
 
     page.goto(live_server.url)
     login = LoginPage(page, live_server)
-    login.login(test_user.email, test_user.password)
+    login.login(test_user.username, test_user.password)
     login.reset_password(test_user.password, "test@1234")
 
     assert page.get_by_role("link", name="Change Password").is_visible(), "Change Password link should be visible after saving password"

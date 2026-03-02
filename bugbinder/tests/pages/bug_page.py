@@ -1,14 +1,19 @@
 from .base_page import BasePage
 
 class BugPage(BasePage):
-
-    def open_create(self):
-        super().open("/bugs/create/")
-
-    def create_bug(self, title, description):
-        self.page.fill("input[name='title']", title)
-        self.page.fill("textarea[name='description']", description)
-        self.page.click("button[type='submit']")
+    def create_bug(self, project_name, title, steps, env="dev", comment=""):
+        self.page.get_by_role("link", name="bug_report Bug Issue").nth(1).click()
+        self.page.locator("input.select-dropdown").first.click()
+        self.page.locator("span").filter(has_text=project_name).click()
+        self.page.get_by_text("Title").click()
+        self.page.get_by_role("textbox", name="Title").fill(title)
+        self.page.get_by_text("Steps to reproduce").click()
+        self.page.get_by_role("textbox", name="Steps to reproduce").fill("\r\n".join(steps))
+        self.page.get_by_text("Environment").click()
+        self.page.get_by_role("textbox", name="Environment").fill(env)
+        self.page.get_by_text("Comment", exact=True).click()
+        self.page.get_by_role("textbox", name="Comment").fill(comment)
+        self.page.get_by_text("Submit").click()
 
     def assign_bug(self, user_id):
         self.page.select_option("select[name='assigned_to']", str(user_id))

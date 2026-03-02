@@ -5,14 +5,6 @@ A Bug tracking and ticketing system using Django.
 #### Hosted link
 [bug-binder](http://atulK.pythonanywhere.com)
 
-USER CREDENTIALS:<br>
-
-| User | Email | Password |
-| :------ | :----: | -----: |
-| Atul | atulddpm@gmail.com  | debugthebug |
-| Divya | dbharti0606@gmail.com  | debugthebug |
-| Aakash | aakash@gmail.com | debugthebug |
-
 #### Features
 
 1. Create project.
@@ -68,11 +60,11 @@ USER CREDENTIALS:<br>
 
   #### Testing
 
-  TODO: Add tests for 
-  - Sign up and Sign in
+  Added pytest-playwright tests for 
+  - Sign up and Sign in and reset password
   - Creating a new project and bug
   - Assign the bug to a dev/tester working on the project
-  - Password change through email otp
+  - TODO: Password change through email otp
 
   #### Justification
 
