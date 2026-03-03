@@ -65,9 +65,6 @@ A Bug tracking and ticketing system using Django.
   - Creating a new project and bug
   - Assign the bug to a dev/tester working on the project
   - TODO: Password change through email otp
- 
-  Coverage Report: 
-[htmlcov.zip](https://github.com/user-attachments/files/25682594/htmlcov.zip)
 
   #### Justification
 
