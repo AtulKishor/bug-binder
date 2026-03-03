@@ -90,13 +90,12 @@ def session_project_users(django_db_setup, django_db_blocker, shared_users):
 
 
 @pytest.fixture(autouse=True)
-def ensure_shared_users(request, django_db_blocker, shared_users):
+def ensure_shared_users(request, db, shared_users):
     if request.node.get_closest_marker("django_db") is None:
         return
-    with django_db_blocker.unblock():
-        shared_users.ensure_exists(shared_users.test_user)
-        shared_users.ensure_exists(shared_users.project_creator)
-        shared_users.ensure_exists(shared_users.project_assignee)
+    shared_users.ensure_exists(shared_users.test_user)
+    shared_users.ensure_exists(shared_users.project_creator)
+    shared_users.ensure_exists(shared_users.project_assignee)
 
 
 @pytest.fixture
