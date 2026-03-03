@@ -32,6 +32,9 @@ staticfiles/
 htmlcov/
 .coverage
 .coverage.*
+coverage.html
+coverage.xml
+
 #pytest
 .pytest_cache/
 #logs

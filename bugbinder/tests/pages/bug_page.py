@@ -15,7 +15,14 @@ class BugPage(BasePage):
         self.page.get_by_role("textbox", name="Comment").fill(comment)
         self.page.get_by_text("Submit").click()
 
-    def assign_bug(self, user_id):
-        self.page.select_option("select[name='assigned_to']", str(user_id))
-        self.page.click("button[type='submit']")
-    
+    def assign_bug(self, username):
+        self.page.locator("select[id^='select-']").first.select_option(username, force=True)
+        self.page.locator(".assign-btn").first.click()
+
+    def solve_bug(self, message=""):
+        self.open("/task/")
+        solution_box = self.page.locator("textarea[id^='solution-']").first
+        solution_box.click()
+        solution_box.fill(message)
+        self.page.locator(".submit").first.click()
+        
