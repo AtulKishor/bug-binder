@@ -1,5 +1,9 @@
 ## Bug Binder
 
+![Tests](https://github.com/AtulKishor/bug-binder/actions/workflows/tests.yml/badge.svg)
+[![codecov](https://codecov.io/gh/AtulKishor/bug-binder/branch/master/graph/badge.svg)](https://codecov.io/gh/AtulKishor/bug-binder)
+![Python](https://img.shields.io/badge/python-3.12-blue)
+
 A Bug tracking and ticketing system using Django.
 
 #### Hosted link
