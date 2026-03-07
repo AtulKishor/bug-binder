@@ -58,16 +58,13 @@ def logoutView(request):
 
 @csrf_exempt
 def forget(request):
-    # Comment out in production
-    if settings.EMAIL_HOST_PASSWORD == "":
-        raise ValueError(
-            "Email password is missing. Set password in EMAIL_HOST_PASSWORD at settings.py")
-
     email = request.POST.get("email")
     try:
         user = User.objects.filter(
             Q(email=email) | Q(username=email)
         ).first()
+        if user is None:
+            raise ValueError("User not found")
         code = get_code()
         if Code.objects.filter(user=user).count() > 0:
             obj = Code.objects.filter(user=user).first()
@@ -79,7 +76,8 @@ def forget(request):
         username = user.username
         subject = "Bugbinder | Reset Password."
         message = f"Dear {username},\nYou recently requested to reset your password for your Bugbinder account.\n\nCODE: {code}\n\nIf you didn't request a password reset, please ignore this email.\n\nThanks,\nBugbinder"
-        async_send_mail(subject, message, settings.EMAIL_HOST_USER, user.email)
+        if settings.EMAIL_HOST_PASSWORD:
+            async_send_mail(subject, message, settings.EMAIL_HOST_USER, user.email)
         return JsonResponse({'status': 200})
     except:
         return JsonResponse({'status': 403})

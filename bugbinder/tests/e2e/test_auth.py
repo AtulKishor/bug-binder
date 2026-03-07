@@ -2,6 +2,7 @@ import time
 
 import pytest
 from django.contrib.auth.models import User
+from playwright.sync_api import expect
 
 from tests.pages.login_page import LoginPage
 from tests.pages.signup_page import SignupPage
@@ -81,4 +82,6 @@ def test_forget_password(page, live_server, test_user, shared_users):
     login.open()
     login.forget_password(test_user.email)
 
-    assert page.get_by_role("heading", name="Reset Password").is_visible(), "Password reset modal should be visible after requesting password reset"
+    expect(page.get_by_role("heading", name="Reset Password")).to_be_visible(
+        timeout=10_000
+    )
