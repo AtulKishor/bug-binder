@@ -21,11 +21,11 @@ def test_signup(page, live_server, test_user):
         return
 
     signup.fill_additional_details(
-        "Test User dev1",
-        "1234567890",
-        "Test Organization",
-        "pallavijainy",
-        "Pallavi jany",
+            test_user.name,
+            test_user.mobile,
+            test_user.office,
+            test_user.github,
+            test_user.linkedin,
     )
     assert page.locator("#user-image").is_visible(), "User github profile should be visible after signing up and filling details"
 
@@ -59,7 +59,7 @@ def test_logout(page, live_server, test_user, shared_users):
 
 
 @pytest.mark.django_db
-def test_reset_password(page, live_server, test_user, shared_users):
+def test_reset_password_logged_in(page, live_server, test_user, shared_users):
     # pytest-django rolls back DB changes after each test, so recreate test_user if needed.
     shared_users.ensure_exists(test_user)
 
@@ -70,3 +70,15 @@ def test_reset_password(page, live_server, test_user, shared_users):
 
     assert page.get_by_role("link", name="Change Password").is_visible(), "Change Password link should be visible after saving password"
     
+
+@pytest.mark.django_db
+def test_forget_password(page, live_server, test_user, shared_users):
+    # pytest-django rolls back DB changes after each test, so recreate test user if needed.
+    shared_users.ensure_exists(test_user)
+    
+    page.goto(live_server.url)
+    login = LoginPage(page, live_server)
+    login.open()
+    login.forget_password(test_user.email)
+
+    assert page.get_by_role("heading", name="Reset Password").is_visible(), "Password reset modal should be visible after requesting password reset"

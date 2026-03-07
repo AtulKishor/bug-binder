@@ -28,11 +28,11 @@ class SharedUsers:
             username="test_user",
             email="test@example.com",
             password="test@123",
-            name="Test User",
-            mobile="9999999991",
-            office="QA",
-            github="test-user",
-            linkedin="test-user-ln",
+            name="Test User dev1",
+            mobile="1234567890",
+            office="Test Organization",
+            github="pallavijainy",
+            linkedin="Pallavi jany",
         )
         self.project_creator = TestUserData(
             username="creator_user",
@@ -41,7 +41,7 @@ class SharedUsers:
             name="Project Creator",
             mobile="9999999992",
             office="Engineering",
-            github="creator-user",
+            github="zvictor",
             linkedin="creator-user-ln",
         )
         self.project_assignee = TestUserData(
@@ -51,8 +51,8 @@ class SharedUsers:
             name="Project Assignee",
             mobile="9999999993",
             office="Engineering",
-            github="assignee-user",
-            linkedin="assignee-user-ln",
+            github="AtulKishor",
+            linkedin="atul-kishor-a7013a225",
         )
 
     def ensure_exists(self, user_data: TestUserData):

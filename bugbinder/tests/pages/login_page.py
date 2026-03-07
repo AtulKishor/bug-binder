@@ -23,3 +23,10 @@ class LoginPage(BasePage):
         self.page.get_by_text("Confirm Password").click()
         self.page.get_by_role("textbox", name="Confirm Password").fill(new_password)
         self.page.get_by_text("Save").click()
+
+    def forget_password(self, email):
+        self.page.locator("#nav-mobile").get_by_role("link", name="Login account_box").click()
+        self.page.get_by_text("Forget Password?").click()
+        self.page.get_by_role("textbox", name="Email Address").fill(email)
+        self.page.get_by_text("Get Code").click()
+        
