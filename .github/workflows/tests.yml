@@ -5,12 +5,32 @@ on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: bugbinder_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d bugbinder_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      POSTGRES_DB: bugbinder_test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: localhost
+      POSTGRES_PORT: "5432"
       EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
       EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
       DJANGO_ALLOW_ASYNC_UNSAFE: "true"
+      PYTHONDONTWRITEBYTECODE: 1
+      PYTHONUNBUFFERED: 1
 
     steps:
       - uses: actions/checkout@v4
