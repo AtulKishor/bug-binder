@@ -23,8 +23,6 @@ media/
 !**/migrations/__init__.py
 !**/migrations/*.py
 
-staticfiles/
-
 #vscode
 .vscode/
 

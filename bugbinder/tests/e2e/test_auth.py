@@ -12,6 +12,8 @@ def test_signup(page, live_server, test_user):
     signup = SignupPage(page, live_server)
     signup.open()
     signup.signup(test_user.username, test_user.email, test_user.password)
+    # add wait
+    time.sleep(5)
 
     if page.locator("#signup-error").is_visible():
         user_exists = User.objects.filter(username=test_user.username).exists()
